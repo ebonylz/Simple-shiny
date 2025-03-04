@@ -1,7 +1,7 @@
 ---
-title: "simple-shiny-ebonylz"
+title: "IMDb Shiny"
 author: "ebonylz"
-date: "2025-03-04"
+date: "2025-02-27"
 output: html_document
 runtime: shiny
 ---
@@ -13,7 +13,8 @@ pacman::p_load(tidyverse, stringr)
 
 ## Introduction
 
-This R Markdown document is made interactive using Shiny to demonstrate my abilities to make interactive data visualizations.
+This R markdown document is made interactive using Shiny to demonstrate my abilities to make interactive data visualizations
+
 
 ```{r load data, include=FALSE}
 title <- read_tsv('title.basics.tsv')
@@ -31,9 +32,9 @@ gc()
 
 ## IMDb data{.tabset}
 
-### Top movies by year
+## Top movies over time
 
-The plot below shows time series of movies with an average rating higher than an 8 by more than 1,000 raters.
+The plot below shows time series of movies with an average rating higher than 8 by more than 1k raters.
 
 ```{r top movies, echo=FALSE}
 inputPanel(
@@ -91,7 +92,6 @@ renderPlot({
 ## Description
 
 In this lab, I accomplished creating an interactive plot of IMDb ratings of 8 or higher. The plot can be refined by years with the movies title on the plot. The plot can also be changed to movies, games, tvseries etc.. 
-
 
 ## Sort top imdb by genre 
 
