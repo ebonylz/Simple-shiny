@@ -51,11 +51,18 @@ inputPanel(
 )
 
 renderPlot({
-  film %>% 
-    filter(titleType %in% input$filmtype, averageRating >=8, numVotes >=1000) %>%
+  film %>%
+    filter(titleType %in% input$filmtype) %>%
+    filter(averageRating >=8 &
+             numVotes >=1000 &
+             startYear >=
+               as.Date(as.character(input$daterange[1]),format = "%Y") &
+             startYear <=
+               as.Date(as.character(input$daterange[2]),format = "%Y")
+           ) %>%
     ggplot(aes(x = startYear, y = averageRating, size = numVotes, color = titleType)) +
     geom_point()+
-      labs(x = NULL, y = NULL,
+      labs(
          title = "Ratings with an 8 or higher",
          caption = "Source: IMDb") + 
       theme_minimal()
