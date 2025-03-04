@@ -37,8 +37,20 @@ The plot below shows time series of movies with an average rating higher than an
 
 ```{r type, echo=FALSE}
 inputPanel(
-
   selectInput("filmtype", label = "Type of film:",
-              choices = unique(film$titleType), selected = "movie", multiple = TRUE)
+              choices = unique(film$titleType), 
+              selected = "movie", 
+              multiple = TRUE)
 )
+
+renderPlot({
+  film %>% 
+    filter(titleType %in% input$filmtype, averageRating >=8, numVotes >=1000) %>%
+    ggplot(aes(x = startYear, y = averageRating, size = numVotes, color = titleType)) +
+    geom_point()+
+      labs(x = NULL, y = NULL,
+         title = "Ratings with an 8 or higher",
+         caption = "Source: IMDb") + 
+      theme_minimal()
+})
 ```
