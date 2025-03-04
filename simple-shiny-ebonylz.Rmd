@@ -60,11 +60,28 @@ renderPlot({
              startYear <=
                as.Date(as.character(input$daterange[2]),format = "%Y")
            ) %>%
-    ggplot(aes(x = startYear, y = averageRating, size = numVotes, color = titleType)) +
+    ggplot(...) +
     geom_point()+
-      labs(
+      labs(x = NULL, y = NULL,
          title = "Ratings with an 8 or higher",
-         caption = "Source: IMDb") + 
-      theme_minimal()
+         subtitle = paste0("Date range: ",
+                           input$daterange[1],
+                           " to ",
+                           input$daterange[2],"."
+                           ),
+         caption = "Source: IMDb") +
+    scale_x_date()+
+    scale_size_continuous(labels = scales::unit_format(
+      unit = "k", 
+      scale = 1e-3,
+      accuracy = 1, 
+      sep = ""
+      #round = 4
+      ), name = 'Votes') +
+    scale_color_discrete(name = 'Media') +
+      theme_minimal()+
+    theme(
+      legend.position = "top"
+    )
 })
 ```
