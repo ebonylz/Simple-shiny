@@ -14,3 +14,17 @@ pacman::p_load(tidyverse, stringr)
 ## Introduction
 
 This R Markdown document is made interactive using Shiny to demonstrate my abilities to make interactive data visualizations.
+
+```{r load data, include=FALSE}
+title <- read_tsv('title.basics.tsv')
+ratings <- read_tsv('title.ratings.tsv')
+
+film <- title %>%
+  merge(ratings) %>%
+  filter(numVotes > 100) %>%
+  mutate(startYear = as.Date(as.character(startYear), format = "%Y"),
+         endYear= as.Date(as.character(endYear), format = "%Y"))
+rm(ratings, title)
+gc()
+
+```
