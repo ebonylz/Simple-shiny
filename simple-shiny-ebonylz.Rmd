@@ -31,5 +31,14 @@ gc()
 
 ## IMDb data{.tabset}
 
-### Top movies over time
+### Top movies by year
 
+The plot below shows time series of movies with an average rating higher than an 8 by more than 1,000 raters.
+
+```{r type, echo=FALSE}
+inputPanel(
+
+  selectInput("filmtype", label = "Type of film:",
+              choices = unique(film$titleType), selected = "movie", multiple = TRUE)
+)
+```
