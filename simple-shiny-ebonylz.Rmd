@@ -87,3 +87,9 @@ renderPlot({
 })
  
 ```
+
+## Description
+
+In this lab, I accomplished creating an interactive plot of IMDb ratings of 8 or higher. The plot can be refined by years with the movies title on the plot. The plot can also be changed to movies, games, tvseries etc.. 
+
+
