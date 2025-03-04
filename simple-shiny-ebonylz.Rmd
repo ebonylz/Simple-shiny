@@ -35,53 +35,55 @@ gc()
 
 The plot below shows time series of movies with an average rating higher than an 8 by more than 1,000 raters.
 
-```{r type, echo=FALSE}
+```{r top movies, echo=FALSE}
 inputPanel(
-  selectInput("filmtype", label = "Type of film:",
+  selectInput("filmtype", label = "Type of film: ",
               choices = unique(film$titleType), 
               selected = "movie", 
               multiple = TRUE),
-  sliderInput("daterange", 
-              label = "Date range:",
-              min = 1890, 
+  sliderInput("daterange",
+              label = "Date Range: ",
+              min = 1890,
               max = 2025,
               value = 
                 c(2019, 2025),
-          sep = "")
+              sep = "")
 )
 
 renderPlot({
   film %>%
     filter(titleType %in% input$filmtype) %>%
-    filter(averageRating >=8 &
-             numVotes >=1000 &
-             startYear >=
-               as.Date(as.character(input$daterange[1]),format = "%Y") &
-             startYear <=
-               as.Date(as.character(input$daterange[2]),format = "%Y")
+    filter(averageRating >= 8 & 
+             numVotes >= 1000 &
+             startYear >= as.Date(as.character(input$daterange[1]), format = "%Y") &
+             startYear <= as.Date(as.character(input$daterange[2]), format = "%Y")
            ) %>%
-    ggplot(...) +
-    geom_point()+
+    ggplot(aes(x = startYear, y = averageRating)) +
+    geom_point(aes(size = numVotes, color = titleType)) +
+    geom_text(data = .%>% group_by(startYear) %>% slice_max(order_by = numVotes, n = 3),
+              mapping = aes(x=startYear, y = averageRating, label = originalTitle, size = numVotes), check_overlap = TRUE, position = position_dodge(0.9)
+              ) +
       labs(x = NULL, y = NULL,
-         title = "Ratings with an 8 or higher",
-         subtitle = paste0("Date range: ",
-                           input$daterange[1],
-                           " to ",
-                           input$daterange[2],"."
-                           ),
-         caption = "Source: IMDb") +
-    scale_x_date()+
+           title = "Ratings with an 8 or higher",
+           subtitle = paste0("Date Range: ",
+                             input$daterange[1],
+                             " to ",
+                             input$daterange[2], "."
+                             ),
+           caption = "Source: IMDb") +
+    scale_x_date() +
     scale_size_continuous(labels = scales::unit_format(
-      unit = "k", 
+      unit = "k",
       scale = 1e-3,
-      accuracy = 1, 
+      accuracy = 1,
       sep = ""
       #round = 4
-      ), name = 'Votes') +
+    ), name = 'Votes') +
     scale_color_discrete(name = 'Media') +
-      theme_minimal()+
+    theme_minimal() +
     theme(
       legend.position = "top"
     )
 })
+ 
 ```
