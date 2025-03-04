@@ -40,7 +40,14 @@ inputPanel(
   selectInput("filmtype", label = "Type of film:",
               choices = unique(film$titleType), 
               selected = "movie", 
-              multiple = TRUE)
+              multiple = TRUE),
+  sliderInput("daterange", 
+              label = "Date range:",
+              min = 1890, 
+              max = 2025,
+              value = 
+                c(2019, 2025),
+          sep = "")
 )
 
 renderPlot({
